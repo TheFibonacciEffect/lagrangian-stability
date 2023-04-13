@@ -1,0 +1,1 @@
+https://phys.libretexts.org/Bookshelves/Classical_Mechanics/Variational_Principles_in_Classical_Mechanics_(Cline)/13%3A_Rigid-body_Rotation/13.18%3A_Lagrange_equations_of_motion_for_rigid-body_rotation
