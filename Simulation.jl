@@ -30,7 +30,7 @@ RtR = expand_derivatives(RtR)
 # define lagrangian
 r = [x; y; z]
 r_dot = D.(r) .|> expand_derivatives
-L = 1/2 * mass_cube * (r_dot' * r_dot) + 1/2 * ω' * R * intertia_tensor_cube * R * ω + (R*μ)'*B
+L = 1/2 * mass_cube * (r_dot' * r_dot) + 1/2 * ω' * R * intertia_tensor_cube * transpose(R) * ω + (R*μ)'*B
 L_subst = substitute(L, [D(x) => dxdt, D(y) => dydt, D(z) => dzdt, D(α) => dαdt, D(β) => dβdt, D(γ) => dγdt, D(ω_x) => dω_xdt, D(ω_y) => dω_ydt, D(ω_z) => dω_zdt])
 
 # euler lagrange equations
@@ -52,4 +52,5 @@ get_el_equation(γ,dγdt)
 
 expand_derivatives(get_el_equation(x,dxdt)[1]) # this actually works!
 expand_derivatives(get_el_equation(α,dαdt)[1],false) # why is this zero?
+
 # expand_derivatives(get_el_equation(α,dαdt)[2],false) # why does this raise an error?
