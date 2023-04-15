@@ -17,9 +17,6 @@ RtR = expand_derivatives(RtR)
 ω_x = -RtR[3,2]
 ω_y = RtR[3,1]
 ω_z = -RtR[2,1]
-using Latexify
-latexify(RtR)
-latexify(simplify(ω_x))
 
 ω = [ω_x; ω_y; ω_z]
 
