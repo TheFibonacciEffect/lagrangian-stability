@@ -18,15 +18,26 @@ B = [Bx; By; Bz]
 D = Differential(t)
 
 # compute omega
-R = RotYXZ(α,β,γ)
+# R = RotYXZ(α,β,γ)
+R = RotZ(γ)
 RtR = D.(transpose(R)) * R
-RtR = expand_derivatives(RtR)
+
+RtR = expand_derivatives.(RtR,false)
+simplify.(RtR)
+ModelingToolkit.solve_for.(RtR, [D(α), D(β), D(γ)])
 ω_x = -RtR[3,2]
 ω_y = RtR[3,1]
 ω_z = -RtR[2,1]
 
 ω = [ω_x; ω_y; ω_z]
 
+M = Array{Any}(undef,3,3)
+for (i,θ) in enumerate([α, β, γ])
+    M[:,i] = @. expand_derivatives(Differential(D(θ))(ω))
+end
+
+M*[D(α); D(β); D(γ)]
+ω
 # define lagrangian
 r = [x; y; z]
 r_dot = D.(r) .|> expand_derivatives
@@ -54,3 +65,5 @@ expand_derivatives(get_el_equation(x,dxdt)[1]) # this actually works!
 expand_derivatives(get_el_equation(α,dαdt)[1],false) # why is this zero?
 
 # expand_derivatives(get_el_equation(α,dαdt)[2],false) # why does this raise an error?
+
+# expand_derivatives(Differential(t)(-sin(-α)*cos(-β)),false) # this works
