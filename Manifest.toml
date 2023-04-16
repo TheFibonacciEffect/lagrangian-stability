@@ -2,7 +2,7 @@
 
 julia_version = "1.8.4"
 manifest_format = "2.0"
-project_hash = "8af1e71b529e4e3403e673bc73100142da149a11"
+project_hash = "c91fdae593931b484e267dae4b5f28331c66bc13"
 
 [[deps.AbstractAlgebra]]
 deps = ["GroupsCore", "InteractiveUtils", "LinearAlgebra", "MacroTools", "Random", "RandomExtensions", "SparseArrays", "Test"]
@@ -185,6 +185,12 @@ version = "0.3.1"
 git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
 uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
 version = "4.1.1"
+
+[[deps.DAEProblemLibrary]]
+deps = ["DiffEqBase", "Markdown"]
+git-tree-sha1 = "b222667764ee5954ab2c488ae521652b1a070aa5"
+uuid = "dfb8ca35-80a1-48ba-a605-84916a45b4f8"
+version = "0.1.0"
 
 [[deps.DataAPI]]
 git-tree-sha1 = "e8119c1a33d267e16108be441a287a6981ba1630"
