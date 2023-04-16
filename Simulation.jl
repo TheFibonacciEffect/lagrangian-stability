@@ -54,10 +54,15 @@ function get_el_equation(x,dxdt)
     return LHS, RHS    
 end
 
-LHS,RHS = expand_derivatives.(get_el_equation(γ,dγdt))
+equations = Array{Equation}(undef,0)
+for (γ,dγdt) in zip([α,β,γ],[dαdt,dβdt,dγdt])
+    LHS,RHS = expand_derivatives.(get_el_equation(γ,dγdt))
+    # LHS = substitute(LHS, [D(γ) => dγdt, D(dγdt) => γ_tt])
+    # append!(equations,[LHS ~ RHS,  D(γ)~dγdt,  D(dγdt)~γ_tt])
+    append!(equations,[LHS ~ RHS,  D(γ)~dγdt])
+end
 
-equations = [LHS ~ RHS,  D(γ)~dγdt]
-el_equations = ODESystem(equations, t, [γ, dγdt], [] , name=:el_equations)
+el_equations = ODESystem(equations, t, [α,β,γ,dαdt,dβdt,dγdt], [] , name=:el_equations)
 
 # structural_simplify
 # this has three variables:
@@ -65,10 +70,11 @@ el_equations = ODESystem(equations, t, [γ, dγdt], [] , name=:el_equations)
 # γ(t) = angle around z axis
 # dγdt(t) = angular velocity around z axis
 # γˍtt(t) = angular acceleration around z axis
-el_simplefied = structural_simplify(el_equations)
+el_simplefied = structural_simplify(el_equations;check_consistency = false)
 
 # solve the equations
-prob = ODEProblem(el_simplefied, [π/2, 0.0,0.0], (0.0, 10.0))
+@variables γˍtt(t)
+prob = ODEProblem(el_simplefied, [α => 0, β => 0, γ => π/2, dγdt => 0, dαdt => 0, dβdt => 0, γˍtt=> 0], (0.0, 10.0))
 
 sol = solve(prob)
 
